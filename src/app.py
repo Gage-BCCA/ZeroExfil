@@ -25,7 +25,7 @@ def url_gate(id: str):
     return render_template('url_gate.html', id=id)
 
 
-@app.route('/infil', methods=["POST"])
+@app.route('/secure', methods=["POST"])
 def secure():
     """
     Bread and butter for the app. Takes a POST request from a form on the homepage that includes
@@ -65,7 +65,7 @@ def secure():
         return redirect(f"/p/{new_path}")
 
 
-@app.route("/exfil", methods=['POST'])
+@app.route("/unlock", methods=['POST'])
 def decode():
     if request.method == "POST":
         password = request.form["password"]
@@ -86,3 +86,19 @@ def decode():
 def protected_url(id):
     url = PROTOCOL + APP_NAME + id
     return render_template("protected_url.html", url=url)
+
+
+#############################
+#          REST API         #
+#############################
+@app.route("/api/secure_link")
+def api_infil():
+    pass
+
+@app.route("/api/unlock_link")
+def api_exfil():
+    pass
+
+@app.route("/api/database_info")
+def api_database_info():
+    pass

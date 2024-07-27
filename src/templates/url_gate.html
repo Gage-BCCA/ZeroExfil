@@ -2,7 +2,7 @@
 {% block content %}
 
 <h3>Password Protected Link ID: {{ id }}</h3>
-    <form action="/exfil", method="post">
+    <form action="/unlock", method="post">
         <label for="password">Password:</label>
         <input type="password" id="password" name="password">
         <input type="hidden" value="{{ id }}" id="id" name="id" />
