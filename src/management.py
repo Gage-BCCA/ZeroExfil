@@ -1,20 +1,20 @@
-import sqlite3
+import os
+import csv
+import csv_utils
 
-def create_sqlite_database(filename):
-    """ create a SQLite database and create tables using the schema file """
-    conn = None
-    try:
-        conn = sqlite3.connect(filename)
-        with open('schema.sql') as fp:
-            conn.executescript(fp.read()) 
-    except sqlite3.Error as e:
-        print(e)
-    finally:
-        if conn:
-            conn.close()
+FILE_NAME = 'links.csv'
 
-def get_sqlite_version() -> str:
-    return sqlite3.sqlite_version
+def build_app_datafile() -> None:
+    # Create csv database file if it doesn't exist
+    if not os.path.isfile(FILE_NAME):
+        with open(FILE_NAME, mode='w', newline='') as file:
+            writer = csv.writer(file)
+        print(f"{FILE_NAME} has been created.")
+    else:
+        print(f"{FILE_NAME} already exists.")
+        print(f"{FILE_NAME} currently has {csv_utils.fetch_datafile_rows()} rows.")
 
-if __name__ == '__main__':
-    create_sqlite_database("links.db")
+
+if __name__ == "__main__":
+    build_app_datafile()
+
