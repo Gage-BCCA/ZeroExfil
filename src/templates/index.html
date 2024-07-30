@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="red-header">
+    <h1>Secure a link</h1>
+</div>
 <div class="form">
     <form action="/secure", method="post">
         <label for="link">URL:</label>
@@ -8,5 +11,8 @@
         <input type="password" id="password" name="password" />
         <input type="submit" value="Secure" />
     </form>
+</div>
+<div>
+    <p> Protecting {{ rows }} links.</p>
 </div>
  {% endblock %}

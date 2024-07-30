@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h3>Password Protected Link ID: {{ id }}</h3>
+<div class="red-header">
+    <h1>Password Protected Link ID: {{ id }}</h1>
+</div>
     <form action="/unlock", method="post">
         <label for="password">Password:</label>
         <input type="password" id="password" name="password">

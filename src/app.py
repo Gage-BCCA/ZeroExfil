@@ -3,7 +3,7 @@ from flask_scrypt import check_password_hash, generate_password_hash, generate_r
 import os
 import sqlite3
 
-from csv_utils import write_link_to_csv, find_link
+from csv_utils import write_link_to_csv, find_link, fetch_datafile_rows
 import links
 
 app = Flask(__name__)
@@ -14,12 +14,14 @@ PROTOCOL = 'http://'
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    rows = fetch_datafile_rows()
+    return render_template("index.html", rows=rows)
 
 
 @app.route("/0/<id>")
 def url_gate(id: str):
     results = find_link(id)
+    
     if not results:
         return redirect('/')
     return render_template('url_gate.html', id=id)
