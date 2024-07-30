@@ -1,6 +1,9 @@
 import datetime
 import string
 import random
+from flask_scrypt import check_password_hash, generate_password_hash, generate_random_salt
+import csv
+
 
 class Link:
 
@@ -35,6 +38,34 @@ class Metadata:
 
 def generate_random_string(size=9, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
+
+def verify_id_uniqueness(new_url: str) -> bool:
+    """ Used during creation of a new link ID to ensure that it is unique. """
+    with open('links.csv', 'r') as datafile:
+        reader = csv.reader(datafile, delimiter=",")
+        for row in reader:
+            if row[1] == new_url:
+                return False
+        else:
+            return True
+
+def create_link(url: str, password: str) -> Link:
+    # Password Salting and Hashing
+    salt = generate_random_salt()
+    pwd_hash = generate_password_hash(password, salt)
+    pwd_and_hash = pwd_hash + b"$" + salt
+    #print(pwd_and_hash.decode('utf-8'))
+
+    # New URL Generation
+    new_path = generate_random_string()
+    while not verify_id_uniqueness(new_path):
+        new_path = generate_random_string()
+
+    link_object = Link(original_url=url, 
+                                new_url=new_path, 
+                                password=pwd_and_hash.decode(), # We have to decode this here to make sure the "b" does not get added to the byte string
+                                 )
+    return link_object
 
 if __name__ == "__main__":
     test_object = Link("test", "test2", "12345")

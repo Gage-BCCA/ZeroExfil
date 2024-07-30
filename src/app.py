@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, g, redirect
+from flask import Flask, render_template, request, g, redirect, jsonify
 from flask_scrypt import check_password_hash, generate_password_hash, generate_random_salt
 import os
 import sqlite3
 
-from csv_utils import write_link_to_csv, find_link, verify_id_uniqueness
+from csv_utils import write_link_to_csv, find_link
 import links
 
 app = Flask(__name__)
@@ -44,25 +44,9 @@ def secure():
         if not password:
             return "<p>Bad</p>"
 
-        # Password Salting and Hashing
-        salt = generate_random_salt()
-        pwd_hash = generate_password_hash(password, salt)
-        pwd_and_hash = pwd_hash + b"$" + salt
-        #print(pwd_and_hash.decode('utf-8'))
-
-        # New URL Generation
-        new_path = links.generate_random_string()
-        while not verify_id_uniqueness(new_path):
-            new_path = links.generate_random_string()
-
-        link_object = links.Link(original_url=link, 
-                                 new_url=new_path, 
-                                 password=pwd_and_hash.decode(), # We have to decode this here to make sure the "b" does not get added to the byte string
-                                 )
-        
+        link_object = links.create_link(link, password)
         write_link_to_csv(link_object)
-
-        return redirect(f"/p/{new_path}")
+        return redirect(f"/p/{link_object.new_url}")
 
 
 @app.route("/unlock", methods=['POST'])
@@ -91,14 +75,33 @@ def protected_url(id):
 #############################
 #          REST API         #
 #############################
-@app.route("/api/secure_link")
+@app.route("/api/secure_link", methods=['POST'])
 def api_infil():
-    pass
+    """Takes a POST request with JSON in the body containing the original link and the password. Returns JSON with a the secured link."""
+    content = request.json
+    link = links.create_link(content["url"], content["password"])
+    write_link_to_csv(link)
+    return jsonify({"original_url": link.original_url,
+                    "new_url": APP_NAME + link.new_url,
+                    "id": link.new_url})
 
-@app.route("/api/unlock_link")
+@app.route("/api/unlock_link", methods=['POST'])
 def api_exfil():
-    pass
+    """Takes a POST request with JSON in the body containing the link ID and the password. Returns JSON with the original url for the provided link ID."""
+    password = request.json["password"]
+    id = request.json["id"]
+
+    results = find_link(id)
+    if not results:
+        return jsonify({})
+    
+    hash, _, salt = results.password.partition("$")
+    if check_password_hash(password, hash.encode(), salt.encode()):
+        return jsonify({"url": results.original_url})
+    else:
+        return jsonify({})
 
 @app.route("/api/database_info")
 def api_database_info():
+    """Takes a GET request and returns some information about the database."""
     pass

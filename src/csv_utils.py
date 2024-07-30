@@ -25,15 +25,6 @@ def find_link(link_id: str) -> links.Link:
             return None
 
 
-def verify_id_uniqueness(new_url: str) -> bool:
-    """ Used during creation of a new link ID to ensure that it is unique. """
-    with open('links.csv', 'r') as datafile:
-        reader = csv.reader(datafile, delimiter=",")
-        for row in reader:
-            if row[1] == new_url:
-                return False
-        else:
-            return True
 
 def fetch_datafile_rows() -> int:
     """ Returns the number of rows currently in the datafile. """

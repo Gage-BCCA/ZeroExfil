@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZeroExfil</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <section>
-        <h1>ZeroExfil</h1>
-        <h2>Deny Leaks.</h2>
+    <section class="title">
+        <h1><a href="/">ZeroExfil</a></h1>
+        <h3>Deny Leaks.</h3>
     </section>
 
-    <section>
+    <section class="content">
         {% block content %}
 
         {% endblock %}

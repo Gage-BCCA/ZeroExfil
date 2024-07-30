@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="form">
     <form action="/secure", method="post">
         <label for="link">URL:</label>
         <input type="url" id="link" name="link" />
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" />
-        <label for="retries">Number of Decryption Attempts:</label>
-        <input type="number" id="retries" name="retries" />
-        <input type="submit" value="Go" />
+        <input type="submit" value="Secure" />
     </form>
+</div>
  {% endblock %}
