@@ -4,7 +4,6 @@ import random
 from flask_scrypt import check_password_hash, generate_password_hash, generate_random_salt
 import csv
 
-
 class Link:
 
     def __init__(self, original_url: str, new_url: str, password: str):
@@ -50,11 +49,11 @@ def verify_id_uniqueness(new_url: str) -> bool:
             return True
 
 def create_link(url: str, password: str) -> Link:
+
     # Password Salting and Hashing
     salt = generate_random_salt()
     pwd_hash = generate_password_hash(password, salt)
     pwd_and_hash = pwd_hash + b"$" + salt
-    #print(pwd_and_hash.decode('utf-8'))
 
     # New URL Generation
     new_path = generate_random_string()
@@ -66,11 +65,3 @@ def create_link(url: str, password: str) -> Link:
                                 password=pwd_and_hash.decode(), # We have to decode this here to make sure the "b" does not get added to the byte string
                                  )
     return link_object
-
-if __name__ == "__main__":
-    test_object = Link("test", "test2", "12345")
-    print(test_object)
-    print(test_object.new_url)
-    print(test_object.original_url)
-    print(test_object.metadata)
-    print(test_object.metadata.views)

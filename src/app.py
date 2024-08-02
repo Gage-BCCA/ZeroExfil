@@ -106,4 +106,4 @@ def api_exfil():
 @app.route("/api/database_info")
 def api_database_info():
     """Takes a GET request and returns some information about the database."""
-    pass
+    return jsonify({"rowcount": fetch_datafile_rows()})
