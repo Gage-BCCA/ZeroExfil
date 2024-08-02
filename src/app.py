@@ -6,7 +6,9 @@ import sqlite3
 from csv_utils import write_link_to_csv, find_link, fetch_datafile_rows
 import links
 
+
 app = Flask(__name__)
+
 
 APP_NAME = '127.0.0.1:5000/0/'
 PROTOCOL = 'http://'
@@ -24,13 +26,15 @@ def url_gate(id: str):
     
     if not results:
         return redirect('/')
+    
+    
     return render_template('url_gate.html', id=id)
 
 
 @app.route('/secure', methods=["POST"])
 def secure():
     """
-    Bread and butter for the app. Takes a POST request from a form on the homepage that includes
+    Takes a POST request from a form on the homepage that includes
     the password, link, and number of retries (which is optional). Afterwards, it safely stores the password by 
     salting it and hashing it. A new URL is generated, and then this information is appended to the database.
     """

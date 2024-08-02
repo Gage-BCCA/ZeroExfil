@@ -16,22 +16,20 @@ class Link:
         return self.new_url
     
     def create_metadata(self):
-        metadata = Metadata(0, datetime.datetime.now(), 0, "scrypt")
+        metadata = Metadata(datetime.datetime.now())
         return metadata
     
     def get_link_data(self) -> list:
-        return [self.original_url, self.new_url, self.password]
+        return [self.original_url, self.new_url, self.password, self.metadata.date_created]
     
 
 class Metadata:
 
-    def __init__(self, views: int, date_created: datetime.datetime, age: int, encryption: str):
-        self.views = views
+    def __init__(self, date_created: datetime.datetime):
         self.date_created = date_created
-        self.age = age
     
     def __str__(self):
-        return f"Metadata Object with {self.views} views, created on {self.date_created}"
+        return f"Metadata Object created on {self.date_created}"
 
 
 

@@ -26,6 +26,7 @@ def find_link(link_id: str) -> links.Link:
 
 
 
+
 def fetch_datafile_rows() -> int:
     """ Returns the number of rows currently in the datafile. """
     with open('links.csv', 'r') as datafile:
