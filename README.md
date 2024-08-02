@@ -30,25 +30,31 @@ The API for the program exposes all of the same functionality as the front-end.
 ## API Endpoints
 
 - **POST** /api/secure_link
+
 This endpoint takes a POST request with JSON in the body, consisting of a "url" field and a "password" field.
-'''json
+
+```
 {
     "url": "https://google.com",
     "password": "12345"
 }
-'''
+```
+
 Returns the new secured URL.
 
 - **POST** /api/unlock_link
+  
 This endpoint takes an ID and password in a POST request. If the password is correct, it returns the original URL.
-'''json
+
+```
 {
     "id": "UASDF12FA",
     "password": "12345"
 }
-'''
+```
 
 - **GET** /api/database_info
+  
 This endpoint just returns the number of rows in the database.
 
 ## How It's Done ✔️
