@@ -1,7 +1,55 @@
-# ZeroExfil - 🔐 A Link Shortener with Password Protection 🔐
-I want to be a security-focused developer, and what better place to start than our first unit project? In this app, you provide a URL (like https://google.com) and a password. You'll get back a link that'll look like http://127.0.0.1:5000/0/*random gibberish*. This link would look different if it was ever published on the internet, but that'll have to be when I have the money to rent processor time for a server and to register a domain name.
+# ZeroExfil - A Link Shortener with Password Protection 🔐
+Welcome to ZeroExfil, a simple web app with a REST API that allows you to shorten and protect sensitive URLs with a password. This simple extra layer of security can help stop OSINT operations and data exfiltration against your organization.
 
-You can then share this link with your friends. When they navigate to it, they'll run into a "URL Gate", which asks for a password. If they can correctly enter this password, they'll automatically redirect to the original link. If they can't enter the correct password, they'll never get access to the original URL. Pretty cool, right?
+## Features
+- **Secure Links with Ease**: Provide a link and password, click submit, and share the new protected link with other parties
+- **Battle Hardened Encryption**: ZeroExfil uses Scrypt, a purposely slow hashing algorithm, and salting, to insure that your links stay safe.
+- **REST API: programatically** secure links with a simple API that exposes all app features to the shell
+
+## Getting Started
+### Prerequisites
+- Flask
+- Flask_Scrypt
+- Pytest
+
+### Installation
+1. Git clone the repo
+2. Navigate to the project directory, and "pip install -r requirements.txt" in your shell or terminal to install the needed libraries
+3. Use the built-in Flask developmental web server by using "flask run" in the src directory, or by running the app.py file
+The app should be running at http://localhost:5000
+
+### Usage
+There are two methods of using the application: the web browser or the REST API.
+
+#### Web Browser
+To use the app in your web browser, you can use any modern web browser and navigate to http://localhost:5000. From here, you will be greeted with the homepage that asks for a URL to secure.
+
+#### REST API
+The API for the program exposes all of the same functionality as the front-end.
+
+## API Endpoints
+
+- **POST** /api/secure_link
+This endpoint takes a POST request with JSON in the body, consisting of a "url" field and a "password" field.
+'''json
+{
+    "url": "https://google.com",
+    "password": "12345"
+}
+'''
+Returns the new secured URL.
+
+- **POST** /api/unlock_link
+This endpoint takes an ID and password in a POST request. If the password is correct, it returns the original URL.
+'''json
+{
+    "id": "UASDF12FA",
+    "password": "12345"
+}
+'''
+
+- **GET** /api/database_info
+This endpoint just returns the number of rows in the database.
 
 ## How It's Done ✔️
 ### Creation of Secured Links
