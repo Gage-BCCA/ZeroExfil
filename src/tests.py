@@ -3,6 +3,9 @@ import csv_utils
 import links
 
 # All test functions have to be ran with Pytest, the web server on, and on the server that is hosting the app (due to the localhost references)
+# Every time the app datafile gets overwritten or remade, the KNOWN_GOOD_ID variable has to be updated with a working link ID
+
+KNOWN_GOOD_ID = "JHF0W5JIC"
 
 class TestAPIFunctions:
     
@@ -13,7 +16,7 @@ class TestAPIFunctions:
             assert res.json()
     
     def test_unlock_url(self):
-        res2 = requests.post('http://localhost:5000/api/unlock_link', json={"id": "IOILTN9MD","password":"12345"})
+        res2 = requests.post('http://localhost:5000/api/unlock_link', json={"id": KNOWN_GOOD_ID,"password":"12345"})
         if res2.ok:
             assert res2.json()["url"] == "https://google.com"
     
@@ -26,7 +29,7 @@ class TestAPIFunctions:
 class TestCsvUtilFunctions:
 
     def test_find_link(self):
-        link = csv_utils.find_link("IOILTN9MD")
+        link = csv_utils.find_link(KNOWN_GOOD_ID)
         assert link.get_link_data != []
 
 
