@@ -111,3 +111,6 @@ def api_exfil():
 def api_database_info():
     """Takes a GET request and returns some information about the database."""
     return jsonify({"rowcount": fetch_datafile_rows()})
+
+if __name__ == "__main__":
+    app.run()
