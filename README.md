@@ -4,7 +4,7 @@ Welcome to ZeroExfil, a simple web app with a REST API that allows you to shorte
 ## Features
 - **Secure Links with Ease**: Provide a link and password, click submit, and share the new protected link with other parties
 - **Battle Hardened Encryption**: ZeroExfil uses Scrypt, a purposely slow hashing algorithm, and salting, to insure that your links stay safe.
-- **REST API: programatically** secure links with a simple API that exposes all app features to the shell
+- **REST API**: programatically secure links with a simple API that exposes all app features to the shell
 
 ## Getting Started
 ### Prerequisites
